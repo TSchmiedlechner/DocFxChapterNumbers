@@ -22,7 +22,7 @@ For example (inside `chapter1.md` from above):
 ## Even more information
 ```
     
-3. Run the tool from this repo, for example:
+## Run the tool from this repo, for example:
 
 ```cmd
 DocFxChapterNumbers.exe .\mydocs\toc.md .\output

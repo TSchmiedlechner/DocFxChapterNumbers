@@ -1,0 +1,26 @@
+﻿<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>DocFxChapterNumbers</id>
+    <summary>A tool to add chapter numbers based on a toc.md and content files.</summary>
+    <description>
+      A tool to add chapter numbers based on a toc.md and content files.
+    </description>
+    <dependencies>
+    </dependencies>
+    <language>en-US</language>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <version>$currentVersion$</version>
+    <authors>cklutz</authors>
+    <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
+    <projectUrl>https://github.com/cklutz/DocFxChapterNumbers</projectUrl>
+    <releaseNotes></releaseNotes>
+    <tags>DocFX Tools</tags>
+  </metadata>
+  <files>
+    <file src="DocFxChapterNumbers.exe" target="tools"/>
+    <file src="*.dll" target="tools"/>
+    <file src="*.pdb" target="tools"/>
+    <file src="*.xml" target="tools"/>
+  </files>
+</package>

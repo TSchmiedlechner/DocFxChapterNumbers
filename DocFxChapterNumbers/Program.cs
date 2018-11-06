@@ -315,30 +315,30 @@ namespace DocFxChapterNumbers
             if (m_level1 > 0)
             {
                 sb.Append(m_level1);
-                sb.Append(".");
 
                 if (m_level2 > 0)
                 {
-                    sb.Append(m_level2);
                     sb.Append(".");
+                    sb.Append(m_level2);
 
                     if (m_level3 > 0)
                     {
-                        sb.Append(m_level3);
                         sb.Append(".");
+                        sb.Append(m_level3);
 
                         if (m_level4 > 0)
                         {
-                            sb.Append(m_level4);
                             sb.Append(".");
+                            sb.Append(m_level4);
 
                             if (m_level5 > 0)
                             {
-                                sb.Append(m_level5);
                                 sb.Append(".");
+                                sb.Append(m_level5);
 
                                 if (m_level6 > 0)
                                 {
+                                    sb.Append(".");
                                     sb.Append(m_level6);
                                 }
                             }

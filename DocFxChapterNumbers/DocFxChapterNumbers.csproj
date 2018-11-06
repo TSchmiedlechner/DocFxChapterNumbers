@@ -64,6 +64,7 @@
   <ItemGroup>
     <NuGetInput Include="$(MSBuildThisFile)" />
     <NuGetInput Include="$(NuSpecFile)" />
+    <NuGetInput Include="$(OutputPath)\$(AssemblyName).exe" />
   </ItemGroup>
   <Target Name="BuildNuGet" AfterTargets="CoreBuild" Condition="Exists('$(NuSpecFile)')" DependsOnTargets="CopyFilesToOutputDirectory" Inputs="@(NuGetInput)" Outputs="$(OutDir)\DocFxChapterNumbers.$(NuGetVersion).nupkg">
     <Exec Command="&quot;$(SolutionDir)\.nuget\NuGet.exe&quot; Pack $(NuSpecFile) -NoPackageAnalysis -BasePath &quot;$(OutDir.TrimEnd('\'))&quot; -OutputDirectory &quot;$(OutDir.TrimEnd('\'))&quot; -prop currentVersion=$(NuGetVersion)" />

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using Markdig;
+using Markdig.Extensions.Tables;
 using Markdig.Helpers;
 using Markdig.Parsers;
 using Markdig.Renderers.Normalize;
@@ -162,6 +164,7 @@ namespace DocFxChapterNumbers
             using (var writer = new StreamWriter(fileName))
             {
                 var renderer = new NormalizeRenderer(writer, options);
+                renderer.ObjectRenderers.Add(new NormalizeTableRenderer());
                 var linkReferenceDefinitionRenderer = renderer.ObjectRenderers.Find<LinkReferenceDefinitionRenderer>();
                 if (linkReferenceDefinitionRenderer != null)
                 {
@@ -220,6 +223,65 @@ namespace DocFxChapterNumbers
             current = update(current);
             literal.Content = new StringSlice(current);
             return literal;
+        }
+    }
+
+    // This is from https://github.com/lunet-io/markdig/pull/184/files. As of Markdig 0.15.4
+    // there is no support for Tables to roundtrip.
+    public class NormalizeTableRenderer : NormalizeObjectRenderer<Table>
+    {
+        public const string PipeSeparator = "|";
+        public const string HeaderSeparator = "---";
+        public const string AlignmentChar = ":";
+        public const string MarginSeparator = " ";
+        protected override void Write(NormalizeRenderer renderer, Table obj)
+        {
+            renderer.EnsureLine();
+
+            foreach (var row in obj.OfType<TableRow>())
+            {
+                renderer.Write(PipeSeparator);
+
+                foreach (var tableCell in row)
+                {
+                    renderer.Write(MarginSeparator);
+
+                    renderer.Render(tableCell);
+
+                    renderer.Write(MarginSeparator);
+                    renderer.Write(PipeSeparator);
+                }
+
+                renderer.WriteLine();
+
+
+                if (row.IsHeader)
+                {
+                    bool alignmentEnabled = obj.ColumnDefinitions.Any(c => c.Alignment != TableColumnAlign.Left);
+
+                    renderer.Write(PipeSeparator);
+
+                    foreach (var column in obj.ColumnDefinitions)
+                    {
+                        renderer.Write(MarginSeparator);
+                        if (alignmentEnabled && (column.Alignment == TableColumnAlign.Left || column.Alignment == TableColumnAlign.Center))
+                        {
+                            renderer.Write(AlignmentChar);
+                        }
+                        renderer.Write(HeaderSeparator);
+                        if (alignmentEnabled && (column.Alignment == TableColumnAlign.Right || column.Alignment == TableColumnAlign.Center))
+                        {
+                            renderer.Write(AlignmentChar);
+                        }
+                        renderer.Write(MarginSeparator);
+                        renderer.Write(PipeSeparator);
+                    }
+
+                    renderer.WriteLine();
+                }
+            }
+
+            renderer.FinishBlock(true);
         }
     }
 

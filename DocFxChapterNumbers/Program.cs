@@ -97,10 +97,7 @@ namespace DocFxChapterNumbers
 
             foreach (var x in doc.Descendants<HeadingBlock>())
             {
-                if (x.Level == 1)
-                    continue;
-
-                chapter.IncrementLevel(x.Level - 1);
+                chapter.IncrementLevel(x.Level);
 
                 foreach (var s in x.Inline)
                 {
@@ -184,7 +181,7 @@ namespace DocFxChapterNumbers
             {
                 if (x.Level > 1)
                 {
-                    chapter.IncrementLevel(x.Level + 1);
+                    chapter.IncrementLevel(x.Level);
                 }
 
                 foreach (var s in x.Inline)
